@@ -87,3 +87,35 @@ Each program:
 5. Retrieves and displays the results
 
 The kernel implementation uses the standard libclc math function `sqrt()` which is available on all OpenCL implementations.
+
+## Understanding libclc
+
+You might notice when running `ldd` on the compiled binaries that none of them link against libclc:
+
+```bash
+$ ldd hello_opencl_cpu
+    libOpenCL.so.1 => /lib64/libOpenCL.so.1
+    libstdc++.so.6 => /lib64/libstdc++.so.6
+    # ... no libclc!
+```
+
+This is expected behavior because **libclc is a compiler library, not a runtime library**.
+
+### How libclc Works
+
+1. **Compile-time, not runtime**: libclc provides the *source code implementation* of OpenCL built-in functions (like `sqrt()`, `sin()`, `cos()`, etc.). It's used during kernel compilation, not when your host application runs.
+
+2. **The compilation process**: When you call `clBuildProgram()` in your host code:
+   - The OpenCL driver/compiler compiles your kernel source code
+   - During compilation, the OpenCL compiler uses libclc to provide implementations of built-in functions
+   - The libclc code gets compiled into the kernel binary (SPIR-V, PTX, or native GPU code)
+   - This compiled kernel is what actually runs on the device
+
+3. **What you link against**: Your host application only links against `libOpenCL.so` - the OpenCL ICD (Installable Client Driver) loader. The ICD loader dispatches calls to the appropriate vendor-specific OpenCL implementation, which includes the compiler that uses libclc.
+
+### Analogy
+
+Think of libclc like compiler headers in C/C++:
+- Your C program uses `printf()` from libc, and you link against libc at runtime
+- But libclc is more like the compiler's built-in headers - it's used during compilation to generate the final code, not linked at runtime
+- The `sqrt()` function in your `kernel.cl` file gets compiled into device-specific instructions when `clBuildProgram()` runs, and libclc provides the implementation that the compiler uses
