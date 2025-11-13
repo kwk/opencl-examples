@@ -78,7 +78,7 @@ int main() {
     }
 
     // Create command queue
-    cl_command_queue queue = clCreateCommandQueue(context, device, 0, &err);
+    cl_command_queue queue = clCreateCommandQueueWithProperties(context, device, NULL, &err);
     if (err != CL_SUCCESS) {
         std::cerr << "Failed to create command queue" << std::endl;
         return 1;
