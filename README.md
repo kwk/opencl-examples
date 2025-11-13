@@ -118,6 +118,36 @@ RUSTICL_ENABLE=iris ./hello_opencl_mesa_gpu  # Use iris for Intel, radeonsi for 
 ./hello_opencl_mesa_cpu
 ```
 
+## Example Output
+
+Here's the expected output when running the Mesa GPU example with an Intel GPU:
+
+```bash
+$ RUSTICL_ENABLE=iris ./hello_opencl_mesa_gpu
+OpenCL Hello World - Mesa GPU Device
+Platform 0: rusticl (Mesa/X.org)
+Selected Mesa platform: rusticl
+Using device: Mesa Intel(R) UHD Graphics (TGL GT1)
+Device vendor: Intel
+Device type: GPU
+
+Results (using Mesa OpenCL sqrt function):
+sqrt(0) = 0 (expected: 0)
+sqrt(1) = 1 (expected: 1)
+sqrt(4) = 2 (expected: 2)
+sqrt(9) = 3 (expected: 3)
+sqrt(16) = 4 (expected: 4)
+sqrt(25) = 5 (expected: 5)
+sqrt(36) = 6 (expected: 6)
+sqrt(49) = 7 (expected: 7)
+sqrt(64) = 8 (expected: 8)
+sqrt(81) = 9 (expected: 9)
+
+Success!
+```
+
+The other examples (CPU, Nvidia, AMD) produce similar output, with the main difference being the platform and device information.
+
 ## How It Works
 
 Each program:
