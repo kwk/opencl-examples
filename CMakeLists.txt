@@ -4,6 +4,9 @@ project(OpenCLHelloWorld LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Define OpenCL target version to suppress cl_version.h warning
+add_compile_definitions(CL_TARGET_OPENCL_VERSION=300)
+
 find_package(OpenCL REQUIRED)
 
 if(NOT OpenCL_FOUND)
