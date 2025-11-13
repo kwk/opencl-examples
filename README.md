@@ -1,6 +1,6 @@
 # OpenCL Hello World Examples
 
-This project demonstrates OpenCL usage with libclc math functions across different device types (CPU, Nvidia GPU, AMD GPU).
+This project demonstrates OpenCL usage with libclc math functions across different device types (CPU, Nvidia GPU, AMD GPU, Mesa).
 
 ## Project Structure
 
@@ -11,16 +11,18 @@ opencl-examples/
 ├── src/
 │   ├── hello_opencl_cpu.cpp
 │   ├── hello_opencl_nvidia.cpp
-│   └── hello_opencl_amd.cpp
+│   ├── hello_opencl_amd.cpp
+│   └── hello_opencl_mesa.cpp
 └── README.md
 ```
 
 ## Features
 
-- Three separate binaries targeting different OpenCL devices:
+- Four separate binaries targeting different OpenCL devices:
   - `hello_opencl_cpu`: Targets CPU devices
   - `hello_opencl_nvidia`: Targets Nvidia GPU devices
   - `hello_opencl_amd`: Targets AMD GPU devices
+  - `hello_opencl_mesa`: Targets Mesa OpenCL devices (Rusticl/Clover)
 - Uses libclc's `sqrt()` math function in the OpenCL kernel
 - Demonstrates basic OpenCL workflow: context creation, kernel compilation, buffer management, and execution
 
@@ -33,6 +35,7 @@ opencl-examples/
   - CPU OpenCL runtime (e.g., Intel OpenCL Runtime, PoCL)
   - Nvidia GPU with CUDA/OpenCL support
   - AMD GPU with ROCm/OpenCL support
+  - Mesa OpenCL support (Rusticl or Clover) for Intel/AMD/other GPUs
 
 ### Installing OpenCL
 
@@ -52,6 +55,27 @@ sudo pacman -S opencl-headers ocl-icd pocl
 ```
 
 Note: PoCL provides a portable CPU-based OpenCL implementation for testing and development.
+
+### Installing Mesa OpenCL (Optional)
+
+Mesa provides OpenCL support for Intel and AMD GPUs through Rusticl (newer, Rust-based) or Clover (older, Gallium-based).
+
+**Fedora/RHEL:**
+```bash
+sudo dnf install mesa-libOpenCL
+```
+
+**Ubuntu/Debian:**
+```bash
+sudo apt-get install mesa-opencl-icd
+```
+
+**Arch Linux:**
+```bash
+sudo pacman -S opencl-mesa
+```
+
+Note: Mesa OpenCL requires compatible GPU hardware (Intel, AMD, or other Mesa-supported GPUs). Check `clinfo` after installation to verify Mesa is detected.
 
 ## Building
 
@@ -75,13 +99,16 @@ From the build directory:
 
 # Run AMD GPU version
 ./hello_opencl_amd
+
+# Run Mesa version (requires mesa-libOpenCL)
+./hello_opencl_mesa
 ```
 
 ## How It Works
 
 Each program:
 1. Initializes input data (array of squared integers)
-2. Finds the appropriate OpenCL device (CPU, Nvidia GPU, or AMD GPU)
+2. Finds the appropriate OpenCL device (CPU, Nvidia GPU, AMD GPU, or Mesa GPU)
 3. Compiles the kernel from `kernel.cl`
 4. Executes the `vector_sqrt` kernel which uses libclc's `sqrt()` function
 5. Retrieves and displays the results
