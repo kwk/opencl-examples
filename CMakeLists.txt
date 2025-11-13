@@ -33,6 +33,10 @@ target_link_libraries(hello_opencl_nvidia ${OpenCL_LIBRARIES})
 add_executable(hello_opencl_amd src/hello_opencl_amd.cpp)
 target_link_libraries(hello_opencl_amd ${OpenCL_LIBRARIES})
 
-# Mesa device binary
-add_executable(hello_opencl_mesa src/hello_opencl_mesa.cpp)
-target_link_libraries(hello_opencl_mesa ${OpenCL_LIBRARIES})
+# Mesa GPU device binary
+add_executable(hello_opencl_mesa_gpu src/hello_opencl_mesa_gpu.cpp)
+target_link_libraries(hello_opencl_mesa_gpu ${OpenCL_LIBRARIES})
+
+# Mesa CPU device binary
+add_executable(hello_opencl_mesa_cpu src/hello_opencl_mesa_cpu.cpp)
+target_link_libraries(hello_opencl_mesa_cpu ${OpenCL_LIBRARIES})

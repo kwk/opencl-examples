@@ -12,17 +12,19 @@ opencl-examples/
 │   ├── hello_opencl_cpu.cpp
 │   ├── hello_opencl_nvidia.cpp
 │   ├── hello_opencl_amd.cpp
-│   └── hello_opencl_mesa.cpp
+│   ├── hello_opencl_mesa_gpu.cpp
+│   └── hello_opencl_mesa_cpu.cpp
 └── README.md
 ```
 
 ## Features
 
-- Four separate binaries targeting different OpenCL devices:
-  - `hello_opencl_cpu`: Targets CPU devices
+- Five separate binaries targeting different OpenCL devices:
+  - `hello_opencl_cpu`: Targets CPU devices (PoCL)
   - `hello_opencl_nvidia`: Targets Nvidia GPU devices
   - `hello_opencl_amd`: Targets AMD GPU devices
-  - `hello_opencl_mesa`: Targets Mesa OpenCL devices (Rusticl/Clover)
+  - `hello_opencl_mesa_gpu`: Targets Mesa OpenCL GPU devices (Rusticl/Clover)
+  - `hello_opencl_mesa_cpu`: Targets Mesa OpenCL CPU devices (Rusticl/Clover)
 - Uses libclc's `sqrt()` math function in the OpenCL kernel
 - Demonstrates basic OpenCL workflow: context creation, kernel compilation, buffer management, and execution
 
@@ -100,8 +102,11 @@ From the build directory:
 # Run AMD GPU version
 ./hello_opencl_amd
 
-# Run Mesa version (requires mesa-libOpenCL)
-./hello_opencl_mesa
+# Run Mesa GPU version (requires mesa-libOpenCL)
+./hello_opencl_mesa_gpu
+
+# Run Mesa CPU version (requires mesa-libOpenCL)
+./hello_opencl_mesa_cpu
 ```
 
 ## How It Works

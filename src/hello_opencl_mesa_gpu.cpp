@@ -16,7 +16,7 @@ std::string loadKernel(const char* filename) {
 }
 
 int main() {
-    std::cout << "OpenCL Hello World - Mesa Device" << std::endl;
+    std::cout << "OpenCL Hello World - Mesa GPU Device" << std::endl;
 
     const int ARRAY_SIZE = 10;
     std::vector<float> input(ARRAY_SIZE);
@@ -61,6 +61,7 @@ int main() {
         }
     }
 
+
     if (platform == nullptr) {
         std::cerr << "Mesa OpenCL platform not found!" << std::endl;
         std::cerr << "\nTo install Mesa OpenCL support:" << std::endl;
@@ -71,15 +72,11 @@ int main() {
         return 1;
     }
 
-    // Try to get GPU device first, fall back to any device
+    // Get GPU device
     err = clGetDeviceIDs(platform, CL_DEVICE_TYPE_GPU, 1, &device, NULL);
     if (err != CL_SUCCESS) {
-        std::cout << "No GPU device found, trying any device type..." << std::endl;
-        err = clGetDeviceIDs(platform, CL_DEVICE_TYPE_ALL, 1, &device, NULL);
-        if (err != CL_SUCCESS) {
-            std::cerr << "Failed to get device from Mesa platform" << std::endl;
-            return 1;
-        }
+        std::cerr << "Failed to get GPU device from Mesa platform" << std::endl;
+        return 1;
     }
 
     // Print device information
