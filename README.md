@@ -56,7 +56,31 @@ sudo apt-get install opencl-headers ocl-icd-opencl-dev pocl-opencl-icd
 sudo pacman -S opencl-headers ocl-icd pocl
 ```
 
+**macOS:**
+```bash
+# Install Xcode Command Line Tools (includes OpenCL framework)
+xcode-select --install
+
+# Install CMake via Homebrew
+brew install cmake
+```
+
 Note: PoCL provides a portable CPU-based OpenCL implementation for testing and development.
+
+### macOS-Specific Information
+
+**OpenCL on macOS:**
+- OpenCL is included as a system framework (no additional installation needed)
+- Available on both Intel-based Macs and Apple Silicon (M1/M2/M3/M4) Macs
+- Apple deprecated OpenCL in favor of Metal, but OpenCL still works and is supported
+- On macOS, the examples will use the built-in Apple OpenCL implementation
+- Apple's OpenCL supports CPU and GPU devices (Intel integrated graphics or Apple Silicon GPU)
+
+**Note about device selection:**
+- On Apple Silicon Macs, you'll see Apple's GPU as the primary OpenCL device
+- On Intel Macs, you may see Intel HD/Iris graphics
+- The `hello_opencl_cpu` example will use the CPU device
+- The Nvidia and AMD-specific examples won't work on macOS (use the CPU example instead)
 
 ### Installing Mesa OpenCL (Optional)
 
@@ -90,6 +114,8 @@ For more information, see the [official Mesa Rusticl documentation](https://docs
 
 ## Building
 
+### Linux
+
 ```bash
 mkdir build
 cd build
@@ -97,7 +123,22 @@ cmake ..
 make
 ```
 
+### macOS
+
+```bash
+mkdir build
+cd build
+cmake ..
+make
+```
+
+The build process is the same on macOS as on Linux. CMake will automatically find the OpenCL framework on macOS.
+
+**Note:** On macOS, you may see warnings about OpenCL being deprecated. These can be safely ignored - OpenCL still works correctly despite the deprecation notices.
+
 ## Running
+
+### Linux
 
 From the build directory:
 
@@ -116,6 +157,33 @@ RUSTICL_ENABLE=iris ./hello_opencl_mesa_gpu  # Use iris for Intel, radeonsi for 
 
 # Run Mesa CPU version (requires mesa-libOpenCL)
 ./hello_opencl_mesa_cpu
+```
+
+### macOS
+
+From the build directory:
+
+```bash
+# Run CPU version (will use Apple's OpenCL CPU device)
+./hello_opencl_cpu
+
+# On macOS, these examples are recommended:
+# - hello_opencl_cpu: Works on all Macs (uses CPU)
+
+# Note: The following examples may not work on macOS because they specifically
+# look for vendor-specific platforms (NVIDIA, AMD, Mesa) that aren't available
+# on macOS. The hello_opencl_cpu example is the most portable option.
+```
+
+**What to expect on macOS:**
+- **Intel-based Macs:** You may see "Intel HD Graphics" or "Intel Iris Graphics" as available devices
+- **Apple Silicon Macs (M1/M2/M3/M4):** You'll see "Apple M1/M2/M3/M4" GPU as an available device
+- The CPU device is always available and will work reliably across all Mac models
+
+**Tip:** To see all available OpenCL devices on your Mac, you can install and run `clinfo`:
+```bash
+brew install clinfo
+clinfo
 ```
 
 ## Example Output
