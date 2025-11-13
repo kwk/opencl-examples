@@ -34,6 +34,25 @@ opencl-examples/
   - Nvidia GPU with CUDA/OpenCL support
   - AMD GPU with ROCm/OpenCL support
 
+### Installing OpenCL
+
+**Fedora/RHEL:**
+```bash
+sudo dnf install opencl-headers OpenCL-ICD-Loader-devel pocl
+```
+
+**Ubuntu/Debian:**
+```bash
+sudo apt-get install opencl-headers ocl-icd-opencl-dev pocl-opencl-icd
+```
+
+**Arch Linux:**
+```bash
+sudo pacman -S opencl-headers ocl-icd pocl
+```
+
+Note: PoCL provides a portable CPU-based OpenCL implementation for testing and development.
+
 ## Building
 
 ```bash
