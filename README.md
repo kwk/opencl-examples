@@ -79,6 +79,13 @@ sudo pacman -S opencl-mesa
 
 Note: Mesa OpenCL requires compatible GPU hardware (Intel, AMD, or other Mesa-supported GPUs). Check `clinfo` after installation to verify Mesa is detected.
 
+**Important for Rusticl:** You need to enable your GPU driver by setting the `RUSTICL_ENABLE` environment variable. For Intel GPUs, use `iris`; for AMD GPUs, use `radeonsi`. Example:
+```bash
+export RUSTICL_ENABLE=iris  # For Intel GPUs
+# or
+export RUSTICL_ENABLE=radeonsi  # For AMD GPUs
+```
+
 ## Building
 
 ```bash
@@ -102,8 +109,8 @@ From the build directory:
 # Run AMD GPU version
 ./hello_opencl_amd
 
-# Run Mesa GPU version (requires mesa-libOpenCL)
-./hello_opencl_mesa_gpu
+# Run Mesa GPU version (requires mesa-libOpenCL and RUSTICL_ENABLE)
+RUSTICL_ENABLE=iris ./hello_opencl_mesa_gpu  # Use iris for Intel, radeonsi for AMD
 
 # Run Mesa CPU version (requires mesa-libOpenCL)
 ./hello_opencl_mesa_cpu
